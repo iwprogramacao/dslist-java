@@ -51,10 +51,10 @@ public class Game {
     @Column(name = "img_url")
     private String imgUrl;
     
-    @Column(name = "short_description")
+    @Column(name = "short_description", columnDefinition = "TEXT")
     private String shortDescription;
     
-    @Column(name = "long_description")
+    @Column(name = "long_description", columnDefinition = "TEXT")
     private String longDescription;
 
 }
