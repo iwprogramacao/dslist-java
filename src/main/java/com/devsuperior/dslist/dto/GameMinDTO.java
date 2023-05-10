@@ -5,11 +5,13 @@
 package com.devsuperior.dslist.dto;
 
 import com.devsuperior.dslist.entities.Game;
+import com.devsuperior.dslist.projections.GameMinProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 /**
  *
@@ -38,5 +40,9 @@ public class GameMinDTO {
         this.year = entity.getYear();
         this.imgUrl = entity.getImgUrl();
         this.shortDescription = entity.getShortDescription();
+    }
+    
+    public GameMinDTO(GameMinProjection projection) {
+        BeanUtils.copyProperties(projection, this);
     }
 }
