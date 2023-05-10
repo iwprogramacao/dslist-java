@@ -5,10 +5,10 @@
 package com.devsuperior.dslist.services;
 
 import com.devsuperior.dslist.dto.GameDTO;
-import com.devsuperior.dslist.dto.GameMinDTO;
+import com.devsuperior.dslist.dto.GameListDTO;
 import com.devsuperior.dslist.entities.Game;
-import com.devsuperior.dslist.projections.GameMinProjection;
-import com.devsuperior.dslist.repositories.GameRepository;
+import com.devsuperior.dslist.entities.GameList;
+import com.devsuperior.dslist.repositories.GameListRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,43 +36,33 @@ import org.springframework.transaction.annotation.Transactional;
  * = true" para informarmos que não iremos fazer nenhuma operação de escrita;
  */
 @Service
-public class GameService {
+public class GameListService {
 
     @Autowired
-    private GameRepository gameRepository;
+    private GameListRepository gameListRepository;
 
     @Transactional(readOnly = true)
-    public List<GameMinDTO> findAll() {
-        List<Game> listGames = gameRepository.findAll();
+    public List<GameListDTO> findAll() {
+        List<GameList> result = gameListRepository.findAll();
 
-        List<GameMinDTO> listGamesDTO = listGames
+        List<GameListDTO> gameListDTO = result
             .stream()
-            .map(game -> new GameMinDTO(game))
+            .map(game -> new GameListDTO(game))
             .toList();
 
-        return listGamesDTO;
-    };
+        return gameListDTO;
+    }
+
+    ;
     
     @Transactional(readOnly = true)
-    public GameDTO findById(Long id) {
+    public GameListDTO findById(Long id) {
         // gameRepository.findById(id) -> Retorna um tipo Optional. Para termos
         // nosso resultado, temos que colocar o ".get()" no final.
-        Game game = gameRepository.findById(id).get();
-        GameDTO gameDTO = new GameDTO(game);
+        GameList gameList = gameListRepository.findById(id).get();
+        GameListDTO gameListDTO = new GameListDTO(gameList);
 
-        return gameDTO;
+        return gameListDTO;
     }
 
-    @Transactional(readOnly = true)
-    public List<GameMinDTO> findByList(Long id) {
-        List<GameMinProjection> result = gameRepository.searchByList(id);
-
-        List<GameMinDTO> listGamesByIdList = result
-            .stream()
-            .map(game -> new GameMinDTO(game))
-            .toList();
-
-        return listGamesByIdList;
-    }
-;
 }
